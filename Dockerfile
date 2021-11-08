@@ -1,7 +1,7 @@
 FROM golang AS compilation_stage
 RUN mkdir -p /go/src/pipeline
 WORKDIR /go/src/pipeline
-ADD bugger.go .
+ADD buffer.go .
 ADD main.go .
 ADD pipeline.go .
 ADD reader.go .
