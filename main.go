@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"time"
 )
 
@@ -13,12 +14,16 @@ const (
 func main() {
 	// Запускаем поток данных
 	input, done := launchReader()
+	log.Println("Reader started")
 
 	// Создаем пайплайн и добавляем стадии обработки
 	pipe := NewPipeline(done)
 	pipe.AddStage(positiveStage)
+	log.Println("Stage added: positive")
 	pipe.AddStage(thirdsStage)
+	log.Println("Stage added: thirds")
 	pipe.AddStage(bufferingStage)
+	log.Println("Stage added: buffering")
 
 	// Запускаем пайплайн
 	data := pipe.Start(input)
@@ -34,6 +39,7 @@ func main() {
 			}
 		}
 	}(done, data)
+	log.Println("Receiver started")
 
 	// Ждем сигнала об окончании
 	<-done

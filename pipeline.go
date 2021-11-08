@@ -1,6 +1,6 @@
 package main
 
-type Stage func(<-chan bool, <-chan int) <-chan int
+import "log"
 
 type Pipeline struct {
 	done   <-chan bool
@@ -9,6 +9,7 @@ type Pipeline struct {
 
 func NewPipeline(done <-chan bool) *Pipeline {
 	stages := make([]Stage, 0)
+	log.Println("Pipeline created")
 	return &Pipeline{done: done, Stages: stages}
 }
 
@@ -25,5 +26,6 @@ func (p *Pipeline) Start(input <-chan int) <-chan int {
 	for i := range p.Stages {
 		data = p.applyStage(p.Stages[i], p.done, data)
 	}
+	log.Println("Pipeline started")
 	return data
 }

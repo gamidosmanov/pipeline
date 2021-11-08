@@ -2,6 +2,7 @@ package main
 
 import (
 	"container/ring"
+	"log"
 	"sync"
 )
 
@@ -12,6 +13,7 @@ type intBuffer struct {
 
 func newIntBuffer(size int) *intBuffer {
 	data := ring.New(size)
+	log.Println("Buffer created")
 	return &intBuffer{data: data, mu: &sync.Mutex{}}
 }
 

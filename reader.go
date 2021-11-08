@@ -1,10 +1,11 @@
 package main
 
 import (
-	"strconv"
 	"bufio"
 	"fmt"
+	"log"
 	"os"
+	"strconv"
 )
 
 func launchReader() (<-chan int, <-chan bool) {
@@ -18,16 +19,19 @@ func launchReader() (<-chan int, <-chan bool) {
 		for {
 			scanner.Scan()
 			text = scanner.Text()
-			if text == "exit"{
+			if text == "exit" {
+				log.Println("Input: exit")
 				fmt.Println("До встречи!")
 				return
 			}
 			i, err := strconv.Atoi(text)
 			if err != nil {
+				log.Println("Input: incorrect")
 				fmt.Println("Нужно ввести целое число")
 				continue
 			}
 			input <- i
+			log.Println("Input: received")
 		}
 	}()
 	return input, done
